@@ -1,6 +1,7 @@
 """Flask app factory: configures FlatPages and wires helpers, routes, and hooks."""
 
 from datetime import datetime
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -23,6 +24,9 @@ def create_app():
         template_folder=str(BASE_DIR / "templates"),
         static_folder=str(BASE_DIR / "static"),
     )
+
+    # Site-wide noindex kill switch — set NOINDEX=False in .env when ready to launch.
+    flask_app.config["NOINDEX"] = os.getenv("NOINDEX", "False") == "True"
 
     flask_app.config["FLATPAGES_EXTENSION"] = ".md"
     flask_app.config["FLATPAGES_ROOT"] = str(BASE_DIR / "posts")
@@ -54,6 +58,7 @@ def register_template_helpers(flask_app):
     def inject_now():
         return {
             "now": datetime.now(),
+            "noindex": flask_app.config["NOINDEX"],
             "site_url": get_site_url(),
             "canonical_url": absolute_url(request.path),
             "default_image_url": absolute_url(
@@ -75,6 +80,9 @@ def register_hooks(flask_app):
     # Baseline security headers on every response.
     @flask_app.after_request
     def add_security_headers(response):
+        # Pre-launch: tell crawlers not to index anything (see NOINDEX in .env)
+        if flask_app.config["NOINDEX"]:
+            response.headers.setdefault("X-Robots-Tag", "noindex, nofollow")
         response.headers.setdefault("X-Content-Type-Options", "nosniff")
         # Disallow embedding the site in iframes (clickjacking protection)
         response.headers.setdefault("X-Frame-Options", "DENY")

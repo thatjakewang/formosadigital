@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#ffffff">
     <!-- TODO: add GTM / analytics snippet for this domain when ready -->
+    {% if noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
     {% block robots %}{% endblock %}
     <title>{% block title %}{{ meta_title | default('Formosa Digital') }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ meta_description | default('Formosa Digital — 數位觀察與實作筆記。') }}{% endblock %}">
