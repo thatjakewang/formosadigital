@@ -20,8 +20,9 @@
    2. Reset & Base Styles
    ========================================= */
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    line-height: 1.7;
+    /* Noto Sans TC loaded via Google Fonts in base.html; Latin fallback stack after it */
+    font-family: 'Noto Sans TC', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.65;
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
@@ -386,6 +387,25 @@ p {
 }
 
 /* Markdown content */
+/* Article text sized to match blog.kyomind.tw (19px base, 1.65 line-height) */
+.entry {
+    font-size: 19px;
+    line-height: 1.65;
+}
+
+.entry p {
+    font-size: inherit; /* override the global 1.05rem p rule */
+    margin: 0.5em 0 1.2em; /* match kyomind paragraph spacing */
+}
+
+/* Match kyomind heading spacing inside articles (tight bottom, prose provides the gap) */
+.entry h2,
+.entry h3,
+.entry h4 {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
 .entry blockquote {
     border-left: 4px solid var(--border-color);
     padding-left: 15px;
@@ -395,7 +415,8 @@ p {
 }
 
 .entry ul, .entry ol {
-    margin-bottom: 1.5em;
+    margin-top: 0.2em;    /* match kyomind list spacing */
+    margin-bottom: 1.2em;
     padding-left: 1.5em;
 }
 
@@ -532,7 +553,7 @@ footer {
 /* Avoid extra inner spacing if highlighter injects */
 .entry pre code {
   font-family: var(--mono-font);
-  font-size: 0.95em;
+  font-size: 16px; /* match kyomind's code block size */
   background: transparent;
   padding: 0;
   border: 0;
@@ -546,7 +567,7 @@ footer {
   border-radius: 4px;
   border: 1px solid var(--code-border);
   font-family: var(--mono-font);
-  font-size: 0.95em;
+  font-size: 0.85em; /* match kyomind's inline code size */
 }
 
 /* If you enabled codehilite (optional but common) */
