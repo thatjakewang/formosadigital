@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://formosadigital.com/sitemap.xml

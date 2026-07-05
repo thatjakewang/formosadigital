@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tag }} - Formosa Digital{% endblock %}
+
+{% block content %}
+<section class="intro">
+    <h1>{{ tag }}</h1>
+    <p class="subtitle">共 {{ posts | length }} 篇文章</p>
+</section>
+
+{% with breadcrumb_current = tag %}{% include '_breadcrumb.html' %}{% endwith %}
+
+<section class="post-list">
+    {% include '_post_list.html' %}
+</section>
+{% endblock %}

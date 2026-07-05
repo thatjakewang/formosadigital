@@ -1,0 +1,7 @@
+{# Shared post list item loop — used by index.html, blog.html, and tag.html #}
+{% for post in posts %}
+<article class="post-preview">
+    <span class="post-date">{{ post.meta.date|strftime }}</span>
+    <h3><a href="{{ url_for('pages.post', path=post.path) }}">{{ post.meta.title }}</a></h3>
+</article>
+{% endfor %}

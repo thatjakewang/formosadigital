@@ -1,0 +1,744 @@
+/* =========================================
+   1. CSS Variables
+   ========================================= */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --heading-color: #222222;
+    --link-color: #d35400;      /* classic orange */
+    --link-hover: #e67e22;
+    --border-color: #eeeeee;    /* divider */
+    --code-bg: #f6f8fa;         /* code block background */
+    --code-border: #e1e4e8;
+    --muted-color: #666666;     /* subtitles, quotes */
+    --meta-color: #999999;      /* dates, footer text */
+    --subtle-bg: #fafafa;       /* zebra rows, hover/card backgrounds */
+    --mono-font: 'Fira Code', 'Menlo', 'Monaco', 'Courier New', monospace;
+}
+
+/* =========================================
+   2. Reset & Base Styles
+   ========================================= */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.7;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+}
+
+/* =========================================
+   3. Layout
+   ========================================= */
+.container {
+    max-width: 740px; /* optimal reading width */
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* =========================================
+   4. Header & Navigation
+   ========================================= */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+}
+
+.logo a {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    margin-left: 20px;
+    color: var(--muted-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--link-color);
+}
+
+/* Mobile: logo + 4 nav links don't fit side by side, so stack them —
+   logo on top, nav below, links wrapping onto extra lines if needed */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 35px;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        gap: 6px 18px;     /* row gap / column gap between links */
+    }
+
+    nav a {
+        margin-left: 0;    /* spacing handled by gap above */
+    }
+}
+
+/* =========================================
+   5. Typography (Global)
+   ========================================= */
+h1, h2, h3 {
+    color: var(--heading-color);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+p {
+    margin-bottom: 1.5em;
+    font-size: 1.05rem;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: var(--muted-color);
+    font-weight: 300;
+    margin-top: -5px;
+    margin-bottom: 16px;
+}
+
+.intro-bio {
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 60ch;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/* =========================================
+   6. Blog & Markdown Styles
+   ========================================= */
+
+/* Post list (Blog Index) */
+.post-preview {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    gap: 1rem;
+    padding: 8px 0;
+}
+
+.post-preview h2,
+.post-preview h3 {
+    margin: 0;
+    font-size: 16px;
+    border: none;
+    padding-bottom: 0;
+    line-height: 1.6;
+    
+}
+
+.post-preview h2 a,
+.post-preview h3 a {
+    color: var(--heading-color);
+    font-weight: normal;
+}
+
+.post-preview h2 a:hover,
+.post-preview h3 a:hover {
+    color: var(--link-color);
+}
+
+.post-date {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--meta-color);
+    display: block;
+    font-family: monospace; /* monospace dates */
+}
+
+/* Project list (Home) */
+.project-preview {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.project-preview:last-of-type {
+    border-bottom: none;
+}
+
+.project-preview h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.project-preview h3 a {
+    color: var(--heading-color);
+}
+
+.project-preview h3 a:hover {
+    color: var(--link-color);
+}
+
+.project-desc {
+    margin: 4px 0 0;
+    color: var(--muted-color);
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+/* Skills list (Home) */
+.skill-list {
+    margin: 0;
+}
+
+.skill-group {
+    display: flex;
+    gap: 1.5rem;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.skill-group:last-child {
+    border-bottom: none;
+}
+
+.skill-group dt {
+    flex: 0 0 140px;
+    color: var(--meta-color);
+    font-size: 14px;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+}
+
+.skill-group dd {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+@media (max-width: 540px) {
+    .skill-group {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .skill-group dt {
+        flex: none;
+    }
+}
+
+/* Single post page */
+.post-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    flex-direction: column;
+    align-items: start;
+}
+
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    color: var(--meta-color);
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.post-meta span + span::before {
+    content: "/";
+    margin-right: 0.5rem;
+    color: var(--border-color);
+}
+
+.post-meta .post-category {
+    color: var(--muted-color);
+    font-weight: 500;
+}
+
+/* Breadcrumb — sits after the article, same minimal language as post-meta */
+.post-breadcrumb {
+    margin-top: 40px;
+    font-size: 0.85rem;
+    color: var(--meta-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.post-breadcrumb a {
+    color: var(--meta-color);
+    margin: 0;
+}
+
+.post-breadcrumb a:hover {
+    color: var(--link-color);
+}
+
+.post-breadcrumb-sep {
+    color: var(--border-color);
+}
+
+.post-breadcrumb [aria-current="page"] {
+    color: var(--muted-color);
+}
+
+/* Breadcrumb placed above the content (tag pages) instead of after the article */
+.post-breadcrumb-top {
+    margin-top: 0;
+    margin-bottom: 32px;
+}
+
+/* Prev / Next post navigation */
+.post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+}
+
+.post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--heading-color);
+    text-decoration: none;
+    transition: border-color 0.2s, background-color 0.2s;
+    margin: 0;
+}
+
+.post-nav-link:hover {
+    border-color: var(--muted-color);
+    background-color: var(--subtle-bg);
+    text-decoration: none;
+}
+
+.post-nav-prev { text-align: left; }
+.post-nav-next { text-align: right; }
+
+.post-nav-label {
+    font-size: 0.8rem;
+    color: var(--meta-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.post-nav-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--heading-color);
+}
+
+@media (max-width: 600px) {
+    .post-nav {
+        grid-template-columns: 1fr;
+    }
+    .post-nav-next { text-align: left; }
+}
+
+/* Markdown content */
+.entry blockquote {
+    border-left: 4px solid var(--border-color);
+    padding-left: 15px;
+    margin-left: 0;
+    color: var(--muted-color);
+    font-style: italic;
+}
+
+.entry ul, .entry ol {
+    margin-bottom: 1.5em;
+    padding-left: 1.5em;
+}
+
+.entry li {
+    margin-bottom: 0.5em;
+}
+
+/* Responsive images */
+.entry img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    display: block;
+    margin: 30px auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+/* Table styles */
+.entry table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+    font-size: 0.95rem;
+}
+.entry th,
+.entry td {
+    border: 1px solid var(--border-color);
+    padding: 10px 16px;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+}
+.entry td:first-child {
+    white-space: normal;
+    min-width: 180px;
+}
+.entry th {
+    background-color: var(--code-bg);
+    font-weight: 600;
+    color: var(--heading-color);
+}
+.entry tr:nth-child(even) td {
+    background-color: var(--subtle-bg);
+}
+
+/* Tag chips */
+.tag-chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--muted-color);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.tag-chip:hover {
+    border-color: var(--link-color);
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 12px; /* spacing below the post meta line (was inline in post.html) */
+}
+
+/* Tag browser on the blog index */
+.tag-index {
+    margin: 0 0 36px;
+}
+
+.back-link {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+.see-more {
+    font-size: 0.9rem;
+    padding-top: 20px;
+}
+
+/* =========================================
+   7. Footer
+   ========================================= */
+footer {
+    margin-top: 100px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 30px;
+    color: var(--meta-color);
+    font-size: 0.9rem;
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+/* =========================================
+   8. Code Blocks
+   ========================================= */
+/* Code block base */
+.entry pre {
+  position: relative;                 /* anchor for ::before label */
+  background: var(--code-bg);
+  color: var(--text-color);
+  padding: 2.5rem 20px 15px;          /* top padding for language label */
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--code-border);
+  margin: 0 0 1.5em;
+}
+
+/* Language label */
+.entry pre::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.6rem;
+  left: 1rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Avoid extra inner spacing if highlighter injects */
+.entry pre code {
+  font-family: var(--mono-font);
+  font-size: 0.95em;
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+
+/* Inline code */
+.entry p code,
+.entry li code {
+  background-color: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--code-border);
+  font-family: var(--mono-font);
+  font-size: 0.95em;
+}
+
+/* If you enabled codehilite (optional but common) */
+.entry .codehilite pre {
+  margin: 0 0 1.5em; /* prevent codehilite wrapper from adding extra spacing */
+}
+
+/* =========================================
+   9. Dashboard (Life / minimal style)
+   ========================================= */
+
+/* Section heading — uses the same h2 underline as blog, but smaller weight */
+.dashboard-section {
+    margin-top: 50px;
+}
+
+.dashboard-section-title {
+    font-size: 1.15rem;
+    color: var(--muted-color);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    margin-bottom: 20px;
+}
+
+/* KPI grid — 4 cols default, .cols-3 for 6-cell layouts (e.g. Tesla) */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.kpi-grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.kpi-card {
+    background: var(--subtle-bg);
+    border: 1px solid var(--border-color);
+    padding: 16px 18px;
+    border-radius: 3px;
+}
+
+.kpi-card-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted-color);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+}
+
+.kpi-card-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    line-height: 1.15;
+    margin-bottom: 6px;
+}
+
+.kpi-card-meta {
+    font-size: 12px;
+    color: var(--meta-color);
+}
+
+/* Meta info line under the KPI grid */
+.dashboard-meta {
+    font-size: 13px;
+    color: var(--meta-color);
+    font-style: italic;
+    margin-top: 6px;
+    margin-bottom: 30px;
+}
+
+.dashboard-meta a {
+    color: var(--link-color);
+    font-style: normal;
+}
+
+/* Minimal table — only horizontal dividers, no full grid */
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.dashboard-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted-color);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border-color);
+    background: transparent;
+}
+
+.dashboard-table td {
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    vertical-align: middle;
+}
+
+.dashboard-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dashboard-table td.col-amount,
+.dashboard-table th.col-amount {
+    text-align: right;
+    font-family: var(--mono-font);
+}
+
+.dashboard-table td.col-date {
+    color: var(--meta-color);
+    font-family: var(--mono-font);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Chart slot — keeps minimal aesthetic, no card chrome */
+.dashboard-chart {
+    position: relative;
+    height: 280px;
+    margin-top: 12px;
+}
+
+/* Exercise picker (progression chart) */
+.dashboard-select {
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    background: var(--subtle-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 6px 10px;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+    .kpi-grid,
+    .kpi-grid.cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .dashboard-table {
+        font-size: 0.85rem;
+    }
+    .dashboard-table th,
+    .dashboard-table td {
+        padding: 12px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-card-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* =========================================
+   10. Dashboard Error States
+   ========================================= */
+
+.dashboard-error {
+    color: #c0392b;
+    font-size: 0.9rem;
+    padding: 8px 0;
+    font-style: normal;
+}
+
+.kpi-card.error {
+    background: #fdf2f2;
+    border-color: #fecaca;
+}
+
+.kpi-card-value.error {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #c0392b;
+}
+
+/* =========================================
+   11. Error Pages (404 / 500)
+   ========================================= */
+
+.error-page {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.error-back {
+    margin-top: 20px;
+}

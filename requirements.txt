@@ -1,0 +1,6 @@
+# Top-level dependencies only — sub-dependencies resolve themselves.
+Flask==3.1.2
+Flask-FlatPages==0.8.3
+gunicorn==23.0.0
+Markdown==3.10
+python-dotenv==1.2.1
