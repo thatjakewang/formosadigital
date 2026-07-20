@@ -61,11 +61,36 @@ header {
     margin-bottom: 50px;
 }
 
-.logo a {
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--heading-color);
     text-decoration: none;
+    line-height: 1.2;
+}
+
+.logo-link:hover {
+    color: var(--heading-color);
+    text-decoration: none;
+}
+
+.logo-link:hover .logo-wordmark {
+    color: var(--link-color);
+}
+
+.logo-mark {
+    display: block;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;
+    border-radius: 6px;
+}
+
+.logo-wordmark {
+    transition: color 0.2s;
 }
 
 nav {
@@ -146,6 +171,16 @@ p {
     margin-bottom: 16px;
 }
 
+/* Page section title when it is the primary h1 (e.g. home) */
+.section-heading {
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    letter-spacing: 0;
+}
+
 .intro-bio {
     color: var(--text-color);
     font-size: 1rem;
@@ -159,42 +194,92 @@ p {
    6. Blog & Markdown Styles
    ========================================= */
 
-/* Post list (Blog Index) */
-.post-preview {
-    display: flex;
-    flex-direction: row;
-    align-items: end;
-    gap: 1rem;
-    padding: 8px 0;
+/* Post list — card grid (image + title + date), 2 columns */
+.post-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
 }
 
-.post-preview h2,
-.post-preview h3 {
+.post-list-empty {
+    grid-column: 1 / -1;
+    color: var(--meta-color);
     margin: 0;
-    font-size: 16px;
-    border: none;
-    padding-bottom: 0;
-    line-height: 1.6;
-    
 }
 
-.post-preview h2 a,
-.post-preview h3 a {
-    color: var(--heading-color);
-    font-weight: normal;
+.post-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-sizing: border-box;
+    padding: 0 0 1rem;
+    background: var(--subtle-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
 }
 
-.post-preview h2 a:hover,
-.post-preview h3 a:hover {
+.post-card:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.post-card:hover .post-card-title {
     color: var(--link-color);
 }
 
+.post-card-image {
+    aspect-ratio: 5 / 3;
+    background: #f0ebe4;
+    overflow: hidden;
+}
+
+.post-card-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-card-title {
+    margin: 0;
+    padding: 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--heading-color);
+    border: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.2s;
+}
+
+.post-card-date {
+    margin-top: auto;
+    padding: 0 1rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--meta-color);
+    font-family: var(--mono-font);
+}
+
+/* Compact row fallback no longer used; keep .post-date for any leftover markup */
 .post-date {
     font-size: 14px;
     line-height: 1.6;
     color: var(--meta-color);
     display: block;
-    font-family: monospace; /* monospace dates */
+    font-family: monospace;
+}
+
+@media (max-width: 540px) {
+    .post-list {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Project list (Home) */
@@ -270,15 +355,74 @@ p {
     }
 }
 
-/* Single post page */
+/* Single post page — hero header (pote-chil style, light theme) */
 .post-header {
-    margin-bottom: 40px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 20px;
+    display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: center;
+    text-align: center;
+    padding: 2.5rem 0 2.75rem;
+    margin-bottom: 0;
+    border-bottom: none;
 }
 
+.post-header-cover {
+    width: min(20vw, 7rem);
+    height: min(20vw, 7rem);
+    object-fit: cover;
+    border-radius: 8px;
+    user-select: none;
+    background: var(--subtle-bg);
+    border: 1px solid var(--border-color);
+}
+
+.post-header-title {
+    margin: 2rem 0 0;
+    font-size: clamp(1.4rem, 4vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.55; /* CJK titles read better with a bit more air */
+    letter-spacing: 0.01em;
+    color: var(--heading-color);
+}
+
+.post-header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1.75rem;
+    row-gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 1.75rem 0 0;
+    color: var(--meta-color);
+    font-size: 0.9375rem;
+}
+
+.post-header-meta li {
+    display: flex;
+    align-items: center;
+}
+
+.post-header-tag {
+    color: var(--muted-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.post-header-tag:hover {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+.post-header-date,
+.post-header-reading {
+    color: var(--meta-color);
+    font-family: var(--mono-font);
+    font-size: 0.875rem;
+}
+
+/* Legacy meta row (if used elsewhere) */
 .post-meta {
     display: flex;
     flex-wrap: wrap;
@@ -298,40 +442,6 @@ p {
 .post-meta .post-category {
     color: var(--muted-color);
     font-weight: 500;
-}
-
-/* Breadcrumb — sits after the article, same minimal language as post-meta */
-.post-breadcrumb {
-    margin-top: 40px;
-    font-size: 0.85rem;
-    color: var(--meta-color);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.post-breadcrumb a {
-    color: var(--meta-color);
-    margin: 0;
-}
-
-.post-breadcrumb a:hover {
-    color: var(--link-color);
-}
-
-.post-breadcrumb-sep {
-    color: var(--border-color);
-}
-
-.post-breadcrumb [aria-current="page"] {
-    color: var(--muted-color);
-}
-
-/* Breadcrumb placed above the content (tag pages) instead of after the article */
-.post-breadcrumb-top {
-    margin-top: 0;
-    margin-bottom: 32px;
 }
 
 /* Prev / Next post navigation */
@@ -386,54 +496,111 @@ p {
     .post-nav-next { text-align: left; }
 }
 
-/* Markdown content */
-/* Article text sized to match blog.kyomind.tw (19px base, 1.65 line-height) */
+/* Markdown content — CJK-friendly reading measure (pote-chil section rhythm) */
 .entry {
-    font-size: 19px;
-    line-height: 1.65;
+    /* ~18px body; denser CJK needs more line-height than Latin */
+    font-size: 1.125rem;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    padding: 2.5rem 0 3rem;
+    border-block: 1px solid var(--border-color);
+    overflow-wrap: break-word;
+}
+
+.entry > :first-child {
+    margin-top: 0;
 }
 
 .entry p {
-    font-size: inherit; /* override the global 1.05rem p rule */
-    margin: 0.5em 0 1.2em; /* match kyomind paragraph spacing */
+    font-size: inherit;
+    margin: 0 0 1.4em;
 }
 
-/* Match kyomind heading spacing inside articles (tight bottom, prose provides the gap) */
 .entry h2,
 .entry h3,
 .entry h4 {
+    color: var(--heading-color);
+    margin-top: 2.75rem;
+    margin-bottom: 0.85rem;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    border: none;
+    padding: 0;
+}
+
+.entry h2 + h3,
+.entry h3 + h4 {
     margin-top: 1.5rem;
-    margin-bottom: 0;
+}
+
+.entry h2 {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+}
+
+.entry h3 {
+    font-size: clamp(1.125rem, 2.5vw, 1.3rem);
+}
+
+.entry h4 {
+    font-size: 1.125rem;
 }
 
 .entry blockquote {
-    border-left: 4px solid var(--border-color);
-    padding-left: 15px;
-    margin-left: 0;
+    border-left: 0.25em solid var(--border-color);
+    padding: 0.25em 1em;
+    margin: 1.25em 0;
     color: var(--muted-color);
-    font-style: italic;
+    font-style: normal;
 }
 
-.entry ul, .entry ol {
-    margin-top: 0.2em;    /* match kyomind list spacing */
-    margin-bottom: 1.2em;
+.entry blockquote p:first-child {
+    margin-top: 0;
+}
+
+.entry blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+.entry ul,
+.entry ol {
+    margin: 0 0 1.25em;
     padding-left: 1.5em;
+    line-height: 1.7;
 }
 
 .entry li {
-    margin-bottom: 0.5em;
+    margin-top: 0.75rem;
 }
 
-/* Responsive images */
+.entry li:first-child {
+    margin-top: 0;
+}
+
+/* Content images — framed panel */
 .entry img {
     max-width: 100%;
     height: auto;
+    max-height: 20rem;
+    width: auto;
+    object-fit: contain;
     border-radius: 6px;
     display: block;
-    margin: 30px auto;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 1.5rem auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+.entry p:has(> img:only-child) {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    background-color: var(--subtle-bg);
+    border-radius: 6px;
+}
+
+.entry p:has(> img:only-child) img {
+    margin: 0;
+}
 
 /* Table styles */
 .entry table {
@@ -443,20 +610,20 @@ p {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     border-collapse: collapse;
-    margin-bottom: 1.5em;
+    margin: 1.5em 0;
     font-size: 0.95rem;
 }
 .entry th,
 .entry td {
     border: 1px solid var(--border-color);
-    padding: 10px 16px;
+    padding: 0.75rem 1.25rem;
     text-align: left;
     vertical-align: top;
     white-space: nowrap;
 }
 .entry td:first-child {
     white-space: normal;
-    min-width: 180px;
+    min-width: 140px;
 }
 .entry th {
     background-color: var(--code-bg);
@@ -467,7 +634,7 @@ p {
     background-color: var(--subtle-bg);
 }
 
-/* Tag chips */
+/* Tag chips (blog index / tag browser) */
 .tag-chip {
     display: inline-block;
     padding: 3px 10px;
@@ -491,7 +658,7 @@ p {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    margin-top: 12px; /* spacing below the post meta line (was inline in post.html) */
+    margin-top: 12px;
 }
 
 /* Tag browser on the blog index */
@@ -506,8 +673,28 @@ p {
     font-size: 0.9rem;
 }
 .see-more {
-    font-size: 0.9rem;
-    padding-top: 20px;
+    padding-top: 1.5rem;
+}
+
+.btn-see-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.85rem 1.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--subtle-bg);
+    color: var(--heading-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.btn-see-more:hover {
+    color: var(--heading-color);
+    text-decoration: none;
 }
 
 /* =========================================

@@ -38,7 +38,7 @@ def website_schema():
 
 
 def breadcrumb_schema(*crumbs):
-    """BreadcrumbList node from ordered (name, url) pairs."""
+    """BreadcrumbList node from ordered (name, url) pairs. SEO only — not rendered as UI."""
     return {
         "@type": "BreadcrumbList",
         "itemListElement": [

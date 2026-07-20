@@ -8,9 +8,7 @@
     <p class="subtitle">共 {{ posts | length }} 篇文章</p>
 </section>
 
-{% with breadcrumb_current = tag %}{% include '_breadcrumb.html' %}{% endwith %}
-
-<section class="post-list">
+<section aria-label="Posts with this tag">
     {% include '_post_list.html' %}
 </section>
 {% endblock %}

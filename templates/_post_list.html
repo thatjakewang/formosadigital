@@ -1,7 +1,22 @@
-{# Shared post list item loop — used by index.html, blog.html, and tag.html #}
+{# Shared post list — card grid (image + title + date) #}
+<div class="post-list">
 {% for post in posts %}
-<article class="post-preview">
-    <span class="post-date">{{ post.meta.date|strftime }}</span>
-    <h3><a href="{{ url_for('pages.post', path=post.path) }}">{{ post.meta.title }}</a></h3>
-</article>
+    {% set cover = post.meta.cover or post.meta.image %}
+    {% if cover and (cover.startswith('http://') or cover.startswith('https://') or cover.startswith('/')) %}
+        {% set cover_url = cover %}
+    {% elif cover %}
+        {% set cover_url = url_for('static', filename=cover) %}
+    {% else %}
+        {% set cover_url = url_for('static', filename='images/eyecatch/default.svg') %}
+    {% endif %}
+    <a class="post-card" href="{{ url_for('pages.post', path=post.path) }}">
+        <div class="post-card-image">
+            <img src="{{ cover_url }}" alt="" loading="lazy" decoding="async">
+        </div>
+        <h3 class="post-card-title">{{ post.meta.title }}</h3>
+        <time class="post-card-date" datetime="{{ post.meta.date|strftime('%Y-%m-%d') }}">{{ post.meta.date|strftime }}</time>
+    </a>
+{% else %}
+    <p class="post-list-empty">尚無文章。</p>
 {% endfor %}
+</div>

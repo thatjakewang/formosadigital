@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<section class="intro">
-    <h1>Formosa Digital</h1>
-    <p class="subtitle">數位觀察與實作筆記。</p>
-    <!-- TODO: replace with the real site intro -->
-</section>
-
 <section class="content-block" aria-label="Recent posts">
-    <h2>最新文章</h2>
+    <h1 class="section-heading">最新文章</h1>
     {% include '_post_list.html' %}
     <div class="see-more">
-        <a href="{{ url_for('pages.blog') }}">→ 所有文章</a>
+        <a class="btn-see-more" href="{{ url_for('pages.blog') }}">所有文章 →</a>
     </div>
 </section>
 {% endblock %}

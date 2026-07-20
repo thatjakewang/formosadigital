@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Formosa Digital">
+  <!-- Larger brand mark (app icon / touch icon source) -->
+  <rect width="128" height="128" rx="28" fill="#f7f1e8"/>
+  <circle cx="90" cy="40" r="20" fill="#e67e22"/>
+  <circle cx="90" cy="40" r="12" fill="#f0a35a" opacity="0.45"/>
+  <path fill="#3a342e" d="M0 94 28 62 50 80 72 46 96 74 128 54v74H0z"/>
+  <path fill="#2c2926" d="M0 106 36 76 60 94 84 66 110 90 128 76v52H0z"/>
+</svg>

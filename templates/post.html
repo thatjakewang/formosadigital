@@ -31,24 +31,38 @@
 {% endblock %}
 
 {% block content %}
+{% set cover = page.meta.cover or page.meta.image %}
+{% if cover and (cover.startswith('http://') or cover.startswith('https://') or cover.startswith('/')) %}
+    {% set cover_url = cover %}
+{% elif cover %}
+    {% set cover_url = url_for('static', filename=cover) %}
+{% else %}
+    {% set cover_url = url_for('static', filename='images/eyecatch/default.svg') %}
+{% endif %}
+
 <article class="post-content">
-    {% with breadcrumb_current = page.meta.title %}{% include '_breadcrumb.html' %}{% endwith %}
     <header class="post-header">
-        <h1>{{ page.meta.title }}</h1>
-        <div class="post-meta">
-            <span>{{ page.meta.date|strftime }}</span>
-            {% if page.meta.category %}
-            <span class="post-category">{{ page.meta.category }}</span>
-            {% endif %}
-            <span>{{ page.body|reading_time }}</span>
-        </div>
-        {% if page.meta.tags %}
-        <div class="post-tags">
+        <img class="post-header-cover" src="{{ cover_url }}" alt="" width="112" height="112">
+        <h1 class="post-header-title">{{ page.meta.title }}</h1>
+        <ul class="post-header-meta">
+            {% if page.meta.tags %}
             {% for tag in page.meta.tags %}
-            <a href="{{ url_for('pages.tag_page', tag_slug=tag|slugify_tag) }}" class="tag-chip">{{ tag }}</a>
+            <li>
+                <a class="post-header-tag" href="{{ url_for('pages.tag_page', tag_slug=tag|slugify_tag) }}">{{ tag }}</a>
+            </li>
             {% endfor %}
-        </div>
-        {% endif %}
+            {% elif page.meta.category %}
+            <li>
+                <span class="post-header-tag">{{ page.meta.category }}</span>
+            </li>
+            {% endif %}
+            <li>
+                <time class="post-header-date" datetime="{{ page.meta.date|strftime('%Y-%m-%d') }}">{{ page.meta.date|strftime }}</time>
+            </li>
+            <li>
+                <span class="post-header-reading">{{ page.body|reading_time }}</span>
+            </li>
+        </ul>
     </header>
 
     <div class="entry">

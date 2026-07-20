@@ -86,7 +86,7 @@ def blog():
 
 @bp.route("/blog/<path:path>/")
 def post(path):
-    # Single post; 404 if the flat-page path is unknown. Builds Article + breadcrumb.
+    # Single post; 404 if the flat-page path is unknown. Builds Article + breadcrumb JSON-LD.
     page = pages.get_or_404(path)
     post_url = absolute_url(url_for(".post", path=page.path))
     title = page.meta.get("title", "Blog Post")
