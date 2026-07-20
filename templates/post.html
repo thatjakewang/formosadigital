@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+{% macro resolve_cover(meta) -%}
+{%- set cover = meta.cover or meta.image -%}
+{%- if cover and (cover.startswith('http://') or cover.startswith('https://') or cover.startswith('/')) -%}
+{{- cover -}}
+{%- elif cover -%}
+{{- url_for('static', filename=cover) -}}
+{%- else -%}
+{{- url_for('static', filename='images/eyecatch/default.svg') -}}
+{%- endif -%}
+{%- endmacro %}
+
 {% block extra_head %}
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
@@ -31,39 +42,34 @@
 {% endblock %}
 
 {% block content %}
-{% set cover = page.meta.cover or page.meta.image %}
-{% if cover and (cover.startswith('http://') or cover.startswith('https://') or cover.startswith('/')) %}
-    {% set cover_url = cover %}
-{% elif cover %}
-    {% set cover_url = url_for('static', filename=cover) %}
-{% else %}
-    {% set cover_url = url_for('static', filename='images/eyecatch/default.svg') %}
-{% endif %}
-
 <article class="post-content">
     <header class="post-header">
-        <img class="post-header-cover" src="{{ cover_url }}" alt="" width="112" height="112">
         <h1 class="post-header-title">{{ page.meta.title }}</h1>
-        <ul class="post-header-meta">
-            {% if page.meta.tags %}
+
+        <div class="post-meta">
+            <time datetime="{{ page.meta.date|strftime('%Y-%m-%d') }}">{{ page.meta.date|strftime }}</time>
+            <span class="post-meta-reading">{{ page.body|reading_time }}</span>
+        </div>
+
+        {% if page.meta.tags %}
+        <div class="post-tags">
             {% for tag in page.meta.tags %}
-            <li>
-                <a class="post-header-tag" href="{{ url_for('pages.tag_page', tag_slug=tag|slugify_tag) }}">{{ tag }}</a>
-            </li>
+            <a href="{{ url_for('pages.tag_page', tag_slug=tag|slugify_tag) }}" class="tag-chip">{{ tag }}</a>
             {% endfor %}
-            {% elif page.meta.category %}
-            <li>
-                <span class="post-header-tag">{{ page.meta.category }}</span>
-            </li>
-            {% endif %}
-            <li>
-                <time class="post-header-date" datetime="{{ page.meta.date|strftime('%Y-%m-%d') }}">{{ page.meta.date|strftime }}</time>
-            </li>
-            <li>
-                <span class="post-header-reading">{{ page.body|reading_time }}</span>
-            </li>
-        </ul>
+        </div>
+        {% endif %}
     </header>
+
+    <figure class="post-thumbnail">
+        <img
+            src="{{ resolve_cover(page.meta) }}"
+            alt=""
+            width="940"
+            height="470"
+            decoding="async"
+            fetchpriority="high"
+        >
+    </figure>
 
     <div class="entry">
         {{ page.html|safe }}
@@ -73,16 +79,22 @@
     <nav class="post-nav" aria-label="Post navigation">
         {% if prev_post %}
         <a class="post-nav-link post-nav-prev" href="{{ url_for('pages.post', path=prev_post.path) }}">
-            <span class="post-nav-label">← 上一篇</span>
-            <span class="post-nav-title">{{ prev_post.meta.title }}</span>
+            <img class="post-nav-thumb" src="{{ resolve_cover(prev_post.meta) }}" alt="" width="72" height="72" loading="lazy" decoding="async">
+            <span class="post-nav-text">
+                <span class="post-nav-label">← 上一篇</span>
+                <span class="post-nav-title">{{ prev_post.meta.title }}</span>
+            </span>
         </a>
         {% else %}
         <span></span>
         {% endif %}
         {% if next_post %}
         <a class="post-nav-link post-nav-next" href="{{ url_for('pages.post', path=next_post.path) }}">
-            <span class="post-nav-label">下一篇 →</span>
-            <span class="post-nav-title">{{ next_post.meta.title }}</span>
+            <span class="post-nav-text">
+                <span class="post-nav-label">下一篇 →</span>
+                <span class="post-nav-title">{{ next_post.meta.title }}</span>
+            </span>
+            <img class="post-nav-thumb" src="{{ resolve_cover(next_post.meta) }}" alt="" width="72" height="72" loading="lazy" decoding="async">
         </a>
         {% else %}
         <span></span>

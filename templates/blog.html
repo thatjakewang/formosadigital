@@ -1,20 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="intro">
-    <h1>部落格</h1>
-    <p class="subtitle">所有文章。</p>
-</section>
+<section class="content-block" aria-label="All posts">
+    <h1 class="section-heading">所有文章</h1>
 
-{% if tags %}
-<nav class="post-tags tag-index" aria-label="Browse by tag">
-    {% for tag in tags %}
-    <a href="{{ url_for('pages.tag_page', tag_slug=tag|slugify_tag) }}" class="tag-chip">{{ tag }}</a>
-    {% endfor %}
-</nav>
-{% endif %}
+    {% if tags %}
+    <nav class="post-tags tag-index" aria-label="Browse by tag">
+        {% for tag in tags %}
+        <a href="{{ url_for('pages.tag_page', tag_slug=tag|slugify_tag) }}" class="tag-chip">{{ tag }}</a>
+        {% endfor %}
+    </nav>
+    {% endif %}
 
-<section aria-label="All posts">
     {% include '_post_list.html' %}
 </section>
 {% endblock %}

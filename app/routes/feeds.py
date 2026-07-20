@@ -2,7 +2,7 @@
 
 from xml.sax.saxutils import escape
 
-from flask import Blueprint, Response, current_app, url_for
+from flask import Blueprint, Response, url_for
 
 from app.utils.dates import normalize_post_date
 from app.utils.posts import get_all_tags, get_sorted_posts
@@ -14,8 +14,11 @@ bp = Blueprint("feeds", __name__)
 
 @bp.route("/robots.txt")
 def robots():
-    # A route (not a static file) so it resolves at the domain root.
-    return current_app.send_static_file("robots.txt")
+    # Build this from SITE_URL so staging and production advertise themselves.
+    body = "User-agent: *\nAllow: /\n\nSitemap: {}/sitemap.xml\n".format(
+        get_site_url()
+    )
+    return Response(body, mimetype="text/plain")
 
 
 @bp.route("/sitemap.xml")

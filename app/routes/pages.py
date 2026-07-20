@@ -22,6 +22,18 @@ from app.utils.urls import absolute_url, get_site_url, slugify_tag
 bp = Blueprint("pages", __name__)
 
 
+def resolve_cover_url(meta):
+    """Return an absolute social-image URL for a post's configured cover."""
+    cover = meta.get("cover") or meta.get("image")
+    if not cover:
+        return absolute_url(url_for("static", filename="images/og-image.jpg"))
+    if cover.startswith(("http://", "https://")):
+        return cover
+    if cover.startswith("/"):
+        return absolute_url(cover)
+    return absolute_url(url_for("static", filename=cover))
+
+
 @bp.route("/")
 def home():
     # Landing page: 5 most-recent posts + WebPage JSON-LD.
@@ -92,6 +104,7 @@ def post(path):
     title = page.meta.get("title", "Blog Post")
     description = page.meta.get("description", f"{title} - {SITE_NAME}")
     post_date = format_datetime(page.meta.get("date"))
+    post_image_url = resolve_cover_url(page.meta)
     prev_post, next_post = get_prev_next(page.path)
 
     article_data = {
@@ -100,6 +113,7 @@ def post(path):
         "mainEntityOfPage": post_url,
         "headline": title,
         "description": description,
+        "image": post_image_url,
         "url": post_url,
         "datePublished": post_date,
         "dateModified": post_date,
@@ -130,6 +144,7 @@ def post(path):
         next_post=next_post,
         meta_title=f"{title} - {SITE_NAME}",
         meta_description=description,
+        social_image_url=post_image_url,
         structured_data=structured_data,
     )
 

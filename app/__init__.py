@@ -25,8 +25,10 @@ def create_app():
         static_folder=str(BASE_DIR / "static"),
     )
 
-    # Site-wide noindex kill switch — set NOINDEX=False in .env when ready to launch.
-    flask_app.config["NOINDEX"] = os.getenv("NOINDEX", "False") == "True"
+    # Fail closed: indexing must be explicitly enabled in the launch environment.
+    flask_app.config["NOINDEX"] = (
+        os.getenv("NOINDEX", "True").strip().lower() == "true"
+    )
 
     flask_app.config["FLATPAGES_EXTENSION"] = ".md"
     flask_app.config["FLATPAGES_ROOT"] = str(BASE_DIR / "posts")

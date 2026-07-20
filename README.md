@@ -5,7 +5,7 @@ Flask site for **formosadigital.com** — same architecture and design as `main-
 ## Structure
 
 ```
-app.py                  # Entry point (port 5001)
+app.py                  # Entry point (port 5002)
 app/
   __init__.py           # App factory: FlatPages config, filters, security headers
   extensions.py         # Shared FlatPages instance (avoids circular imports)
@@ -28,7 +28,7 @@ static/css/style.css    # Copied from main-site — keep visual parity manually
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-FLASK_DEBUG=True python app.py   # http://localhost:5001
+FLASK_DEBUG=True python app.py   # http://localhost:5002
 ```
 
 ## Differences from main-site
@@ -43,4 +43,4 @@ FLASK_DEBUG=True python app.py   # http://localhost:5001
 - [ ] Add GTM / analytics snippet in `base.html`
 - [ ] Add google-site-verification meta after registering Search Console
 - [ ] Refine homepage intro and meta descriptions (marked `TODO` in code)
-- [ ] Deploy: systemd unit (gunicorn, port 5001) + nginx server block + certbot on web-01
+- [ ] Deploy: systemd unit (gunicorn, port 5002) + nginx server block + certbot on web-01

@@ -50,9 +50,10 @@ a:hover {
 }
 
 /* =========================================
-   4. Header & Navigation
+   4. Site Header & Navigation
+   (scoped to .site-header so article <header> is unaffected)
    ========================================= */
-header {
+.site-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -93,39 +94,38 @@ header {
     transition: color 0.2s;
 }
 
-nav {
+.site-header nav {
     display: flex;
     align-items: center;
 }
 
-nav a {
+.site-header nav a {
     margin-left: 20px;
     color: var(--muted-color);
     font-size: 0.95rem;
     font-weight: 500;
 }
 
-nav a:hover {
+.site-header nav a:hover {
     color: var(--link-color);
 }
 
-/* Mobile: logo + 4 nav links don't fit side by side, so stack them —
-   logo on top, nav below, links wrapping onto extra lines if needed */
+/* Mobile: logo + nav links stack */
 @media (max-width: 600px) {
-    header {
+    .site-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
         margin-bottom: 35px;
     }
 
-    nav {
+    .site-header nav {
         flex-wrap: wrap;
-        gap: 6px 18px;     /* row gap / column gap between links */
+        gap: 6px 18px;
     }
 
-    nav a {
-        margin-left: 0;    /* spacing handled by gap above */
+    .site-header nav a {
+        margin-left: 0;
     }
 }
 
@@ -355,155 +355,158 @@ p {
     }
 }
 
-/* Single post page — hero header (pote-chil style, light theme) */
+/* Single post — SANGO-style: left title, meta, large eyecatch, prose */
 .post-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 2.5rem 0 2.75rem;
-    margin-bottom: 0;
-    border-bottom: none;
+    display: block;
+    text-align: left;
+    padding: 0 0 0.25rem;
+    margin: 0 0 0;
+    border: none;
 }
 
-.post-header-cover {
-    width: min(20vw, 7rem);
-    height: min(20vw, 7rem);
-    object-fit: cover;
-    border-radius: 8px;
-    user-select: none;
-    background: var(--subtle-bg);
-    border: 1px solid var(--border-color);
-}
-
-.post-header-title {
-    margin: 2rem 0 0;
-    font-size: clamp(1.4rem, 4vw, 1.85rem);
+/* h1. prefix beats global h1 (2.8rem / letter-spacing: -1px) */
+h1.post-header-title {
+    margin: 0;
+    font-size: clamp(1.65rem, 4.5vw, 2.15rem);
     font-weight: 700;
-    line-height: 1.55; /* CJK titles read better with a bit more air */
+    line-height: 1.4;
     letter-spacing: 0.01em;
     color: var(--heading-color);
 }
 
-.post-header-meta {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 1.75rem;
-    row-gap: 0.5rem;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    padding: 0;
-    margin: 1.75rem 0 0;
-    color: var(--meta-color);
-    font-size: 0.9375rem;
-}
-
-.post-header-meta li {
-    display: flex;
-    align-items: center;
-}
-
-.post-header-tag {
-    color: var(--muted-color);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.post-header-tag:hover {
-    color: var(--link-color);
-    text-decoration: none;
-}
-
-.post-header-date,
-.post-header-reading {
-    color: var(--meta-color);
-    font-family: var(--mono-font);
-    font-size: 0.875rem;
-}
-
-/* Legacy meta row (if used elsewhere) */
 .post-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.65rem 1.25rem;
     align-items: center;
     color: var(--meta-color);
     font-size: 0.9rem;
-    margin-top: 10px;
+    font-family: var(--mono-font);
+    margin-top: 0.9rem;
 }
 
-.post-meta span + span::before {
-    content: "/";
-    margin-right: 0.5rem;
-    color: var(--border-color);
+.post-meta time,
+.post-meta-reading {
+    color: var(--meta-color);
 }
 
-.post-meta .post-category {
-    color: var(--muted-color);
-    font-weight: 500;
+.post-header .post-tags {
+    margin-top: 0.85rem;
 }
 
-/* Prev / Next post navigation */
+/* Featured image under title — wider crop so height stays modest */
+.post-thumbnail {
+    margin: 16px 0 0;
+    padding: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--subtle-bg);
+}
+
+.post-thumbnail img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    vertical-align: bottom;
+}
+
+/* Prev / Next — SANGO-like cards with thumbs, no hover chrome */
 .post-nav {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-top: 24px;
-    padding-top: 24px;
+    margin-top: 2.5rem;
+    padding-top: 1.75rem;
     border-top: 1px solid var(--border-color);
 }
 
 .post-nav-link {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 14px 16px;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 6px;
+    background: var(--subtle-bg);
     color: var(--heading-color);
     text-decoration: none;
-    transition: border-color 0.2s, background-color 0.2s;
     margin: 0;
+    min-width: 0;
 }
 
 .post-nav-link:hover {
-    border-color: var(--muted-color);
-    background-color: var(--subtle-bg);
+    color: var(--heading-color);
     text-decoration: none;
 }
 
+.post-nav-thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+    background: #f0ebe4;
+}
+
+.post-nav-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
 .post-nav-prev { text-align: left; }
-.post-nav-next { text-align: right; }
+.post-nav-next {
+    text-align: right;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.post-nav-next .post-nav-text {
+    align-items: flex-end;
+}
 
 .post-nav-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--meta-color);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
 }
 
 .post-nav-title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--heading-color);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 @media (max-width: 600px) {
     .post-nav {
         grid-template-columns: 1fr;
     }
-    .post-nav-next { text-align: left; }
+    .post-nav-next {
+        text-align: left;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+    }
+    .post-nav-next .post-nav-text {
+        align-items: flex-start;
+    }
 }
 
-/* Markdown content — CJK-friendly reading measure (pote-chil section rhythm) */
+/* Markdown content — CJK reading, SANGO-like article flow */
 .entry {
-    /* ~18px body; denser CJK needs more line-height than Latin */
     font-size: 1.125rem;
     line-height: 1.9;
     letter-spacing: 0.02em;
-    padding: 2.5rem 0 3rem;
-    border-block: 1px solid var(--border-color);
+    padding: 2rem 0 0;
+    margin-top: 0.25rem;
+    border: none;
     overflow-wrap: break-word;
 }
 
@@ -520,12 +523,22 @@ p {
 .entry h3,
 .entry h4 {
     color: var(--heading-color);
+    margin-top: 2.5rem;
+    margin-bottom: 0.85rem;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+/* SANGO-style side bars (main accent) */
+.entry h2 {
+    font-size: clamp(1.3rem, 3vw, 1.55rem);
     margin-top: 2.75rem;
     margin-bottom: 0.85rem;
-    line-height: 1.45;
-    letter-spacing: 0.01em;
+    padding: 0.55em 0 0.55em 0.85em;
     border: none;
-    padding: 0;
+    border-left: 5px solid var(--link-color);
+    background: var(--subtle-bg);
+    line-height: 1.55;
 }
 
 .entry h2 + h3,
@@ -533,24 +546,31 @@ p {
     margin-top: 1.5rem;
 }
 
-.entry h2 {
-    font-size: clamp(1.25rem, 3vw, 1.5rem);
-}
-
 .entry h3 {
-    font-size: clamp(1.125rem, 2.5vw, 1.3rem);
+    font-size: clamp(1.15rem, 2.5vw, 1.3rem);
+    margin-top: 2.4rem;
+    padding: 0.45em 0 0.45em 0.75em;
+    border: none;
+    border-left: 4px solid var(--link-color);
+    background: transparent;
+    line-height: 1.5;
 }
 
 .entry h4 {
     font-size: 1.125rem;
+    padding: 0;
+    border: none;
+    border-left: 3px solid var(--border-color);
+    padding-left: 0.65em;
 }
 
 .entry blockquote {
-    border-left: 0.25em solid var(--border-color);
-    padding: 0.25em 1em;
-    margin: 1.25em 0;
+    border-left: 4px solid var(--link-color);
+    padding: 0.35em 0 0.35em 1.1em;
+    margin: 1.5em 0;
     color: var(--muted-color);
     font-style: normal;
+    background: transparent;
 }
 
 .entry blockquote p:first-child {
@@ -563,43 +583,35 @@ p {
 
 .entry ul,
 .entry ol {
-    margin: 0 0 1.25em;
+    margin: 0 0 1.4em;
     padding-left: 1.5em;
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
 .entry li {
-    margin-top: 0.75rem;
+    margin-top: 0.55rem;
 }
 
 .entry li:first-child {
     margin-top: 0;
 }
 
-/* Content images — framed panel */
+/* Content images */
 .entry img {
     max-width: 100%;
     height: auto;
-    max-height: 20rem;
-    width: auto;
-    object-fit: contain;
-    border-radius: 6px;
+    border-radius: 4px;
     display: block;
-    margin: 1.5rem auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin: 1.75rem auto;
+    box-shadow: none;
 }
 
 .entry p:has(> img:only-child) {
-    display: flex;
-    justify-content: center;
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-    background-color: var(--subtle-bg);
-    border-radius: 6px;
+    margin: 1.75rem 0;
 }
 
 .entry p:has(> img:only-child) img {
-    margin: 0;
+    margin: 0 auto;
 }
 
 /* Table styles */
